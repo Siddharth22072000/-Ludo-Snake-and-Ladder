@@ -1,0 +1,6 @@
+{
+  "name": "Ludo Ladders",
+  "description": "Multiplayer board game combining Ludo and Snakes & Ladders mechanics with real-time matchmaking, AI play, chat, and global leaderboards.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

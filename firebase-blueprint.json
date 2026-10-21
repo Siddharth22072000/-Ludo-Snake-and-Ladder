@@ -1,0 +1,261 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile with game stats and trophy ratings",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "Firebase Auth UID"
+        },
+        "username": {
+          "type": "string",
+          "description": "Display name of player"
+        },
+        "photoUrl": {
+          "type": "string",
+          "description": "Avatar URL"
+        },
+        "wins": {
+          "type": "integer",
+          "description": "Total games won"
+        },
+        "losses": {
+          "type": "integer",
+          "description": "Total games lost"
+        },
+        "gamesPlayed": {
+          "type": "integer",
+          "description": "Total games played"
+        },
+        "trophies": {
+          "type": "integer",
+          "description": "Player trophies rating"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp of registration"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp of last profile update"
+        }
+      },
+      "required": [
+        "userId",
+        "username",
+        "wins",
+        "losses",
+        "gamesPlayed",
+        "trophies",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "MatchRoom": {
+      "title": "MatchRoom",
+      "description": "Multiplayer match room supporting real-time Ludo Ladders gameplay",
+      "type": "object",
+      "properties": {
+        "roomId": {
+          "type": "string",
+          "description": "Unique room ID / code"
+        },
+        "hostId": {
+          "type": "string",
+          "description": "UID of match host"
+        },
+        "hostName": {
+          "type": "string",
+          "description": "Display name of match host"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["waiting", "playing", "finished"],
+          "description": "Current room state"
+        },
+        "playerCount": {
+          "type": "integer",
+          "description": "Number of players (2 to 4)"
+        },
+        "playerUids": {
+          "type": "array",
+          "description": "List of player user IDs"
+        },
+        "playerNames": {
+          "type": "array",
+          "description": "List of player names"
+        },
+        "playerColors": {
+          "type": "array",
+          "description": "Player token colors"
+        },
+        "playerTokens": {
+          "type": "array",
+          "description": "Integer positions of tokens on board"
+        },
+        "turnIndex": {
+          "type": "integer",
+          "description": "Current active player index"
+        },
+        "turnUid": {
+          "type": "string",
+          "description": "UID of player whose turn it is"
+        },
+        "diceValue": {
+          "type": "integer",
+          "description": "Last rolled dice value (1-6)"
+        },
+        "diceRolled": {
+          "type": "boolean",
+          "description": "Whether dice was rolled for current turn"
+        },
+        "lastAction": {
+          "type": "string",
+          "description": "Description of last board action"
+        },
+        "winnerId": {
+          "type": "string",
+          "description": "UID of winner once finished"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when match was created"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when match was updated"
+        }
+      },
+      "required": [
+        "roomId",
+        "hostId",
+        "hostName",
+        "status",
+        "playerCount",
+        "playerUids",
+        "playerNames",
+        "playerColors",
+        "playerTokens",
+        "turnIndex",
+        "turnUid",
+        "diceValue",
+        "diceRolled",
+        "lastAction",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "ChatMessage": {
+      "title": "ChatMessage",
+      "description": "Real-time in-game chat message or quick reaction",
+      "type": "object",
+      "properties": {
+        "messageId": {
+          "type": "string",
+          "description": "Message document ID"
+        },
+        "roomId": {
+          "type": "string",
+          "description": "Parent room ID"
+        },
+        "senderId": {
+          "type": "string",
+          "description": "UID of sender"
+        },
+        "senderName": {
+          "type": "string",
+          "description": "Name of sender"
+        },
+        "text": {
+          "type": "string",
+          "description": "Message text or emote"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp message was sent"
+        }
+      },
+      "required": [
+        "messageId",
+        "roomId",
+        "senderId",
+        "senderName",
+        "text",
+        "createdAt"
+      ]
+    },
+    "LeaderboardEntry": {
+      "title": "LeaderboardEntry",
+      "description": "Global leaderboard entry for top players",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "User ID"
+        },
+        "username": {
+          "type": "string",
+          "description": "Player username"
+        },
+        "wins": {
+          "type": "integer",
+          "description": "Total wins"
+        },
+        "gamesPlayed": {
+          "type": "integer",
+          "description": "Total games"
+        },
+        "trophies": {
+          "type": "integer",
+          "description": "Trophy count"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last update timestamp"
+        }
+      },
+      "required": [
+        "userId",
+        "username",
+        "wins",
+        "gamesPlayed",
+        "trophies",
+        "updatedAt"
+      ]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": {
+        "$ref": "#/entities/User"
+      },
+      "description": "User profiles and career stats"
+    },
+    "/match_rooms/{roomId}": {
+      "schema": {
+        "$ref": "#/entities/MatchRoom"
+      },
+      "description": "Multiplayer match rooms"
+    },
+    "/match_rooms/{roomId}/messages/{messageId}": {
+      "schema": {
+        "$ref": "#/entities/ChatMessage"
+      },
+      "description": "Real-time in-game room messages"
+    },
+    "/leaderboards/{userId}": {
+      "schema": {
+        "$ref": "#/entities/LeaderboardEntry"
+      },
+      "description": "Global leaderboard rankings"
+    }
+  }
+}
